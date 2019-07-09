@@ -12,7 +12,6 @@ class Solution:
         if rows < 1 or cols < 1 or path == '':
             return False
         str_ma = self.build(matrix, rows, cols)
-        print(str_ma)
         mark = [[False for _ in range(cols)] for _ in range(rows)]
         pathlen = 0
         for i in range(rows):
@@ -33,7 +32,7 @@ class Solution:
         next_search = False
         if row >= 0 and row <rows and col >= 0 and col < cols and matrix[row][col] == path[pathlen] and mark[row][col] == False:
             pathlen += 1
-            matrix[row][col] = True
+            mark[row][col] = True
             next_search = self.backtracking(matrix, mark, rows, cols, row-1, col, path, pathlen) or self.backtracking(matrix, mark, rows, cols, row+1, col, path, pathlen) or self.backtracking(matrix, mark, rows, cols, row, col-1, path, pathlen) or self.backtracking(matrix, mark, rows, cols, row, col+1, path, pathlen) 
             if not next_search:
                 pathlen -= 1
