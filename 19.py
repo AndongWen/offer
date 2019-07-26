@@ -30,18 +30,38 @@ class Solution:
         return False
 
     def isMatch(self, s, p): # ok
+		# 暴力匹配
         if not p:
             return not s
         first_match = bool(s) and p[0] in {s[0],  '.'}
         if len(p) >= 2 and p[1] == '*':
-             return self.isMatch(s, p[2:]) or \ # 匹配０次
-                 (first_match and self.isMatch(s[1:], p)) # 匹配１次
+             return self.isMatch(s, p[2:]) or \
+                 (first_match and self.isMatch(s[1:], p)) # 分别匹配0,1次
         else:
             return first_match and self.isMatch(s[1:], p[1:])
 
+    def isMatch2(self, s, p):
+		# 使用额外空间对结果进行存储,避免重复计算
+        res = {}
+        def dp(i, j): 
+            if (i, j) in res:
+                return res[(i, j)]
+            if j == len(p):
+                return i == len(s)
+            first_match = i < len(s) and p[j] in {s[i], '.'}
+            if j <= len(p)-2 and p[j+1] == '*':
+                ans = dp(i, j+2) or \
+                    dp(i+1, j)
+            else:
+               ans = dp(i+1, j+1)
+            res[(i, j)] = ans
+            return ans
+
+        return dp(0,0)
+
 def main():
 	s = Solution()
-	a = s.isMatch('baadc', 'c*.a*.c')
+	a = s.isMatch2('baadc', 'c*.a*.c')
 	print(a)
 
 if __name__ == "__main__":
