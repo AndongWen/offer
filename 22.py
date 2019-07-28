@@ -15,3 +15,5 @@ class Solution():
 			fast = fast.next
 			slow = slow.next
 		return slow	
+# 一个指针遍历链表一次无法解决问题的时候，可以选择用两个指针，速度不同
+# 来遍历一次，解决问题
